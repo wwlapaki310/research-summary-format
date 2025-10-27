@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>論文まとめフォーマット</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>論文まとめフォーマット</h1>
+            <p>6つの質問フォーマットで論文をまとめよう</p>
+        </header>
+
+        <main>
+            <!-- プレビューを上部に配置 -->
+            <section class="preview-section">
+                <h2>プレビュー</h2>
+                <div class="preview-container" id="preview-container">
+                    <div class="paper-summary">
+                        <div class="paper-header">
+                            <h3 class="paper-title" id="preview-title">論文タイトル</h3>
+                            <p class="paper-meta">
+                                <span class="paper-author" id="preview-author">著者名</span>
+                                <span class="paper-year" id="preview-year">(年度)</span>
+                            </p>
+                            <div class="paper-categories" id="preview-categories"></div>
+                            <div class="paper-images" id="preview-paper-images" style="display: none;"></div>
+                        </div>
+                        
+                        <div class="questions-grid">
+                            <div class="question-card" data-preview="1">
+                                <h4 class="question-title" id="preview-q1-label">どんなもの？</h4>
+                                <p class="question-answer" id="preview-q1-content">回答内容がここに表示されます</p>
+                            </div>
+                            
+                            <div class="question-card" data-preview="2">
+                                <h4 class="question-title" id="preview-q2-label">先行研究と比べてどこがすごいの？</h4>
+                                <p class="question-answer" id="preview-q2-content">回答内容がここに表示されます</p>
+                            </div>
+                            
+                            <div class="question-card" data-preview="3">
+                                <h4 class="question-title" id="preview-q3-label">技術や手法の"キモ"はどこにある？</h4>
+                                <p class="question-answer" id="preview-q3-content">回答内容がここに表示されます</p>
+                            </div>
+                            
+                            <div class="question-card" data-preview="4">
+                                <h4 class="question-title" id="preview-q4-label">どうやって有効だと検証した？</h4>
+                                <p class="question-answer" id="preview-q4-content">回答内容がここに表示されます</p>
+                            </div>
+                            
+                            <div class="question-card" data-preview="5">
+                                <h4 class="question-title" id="preview-q5-label">議論はあるか？</h4>
+                                <p class="question-answer" id="preview-q5-content">回答内容がここに表示されます</p>
+                            </div>
+                            
+                            <div class="question-card" data-preview="6">
+                                <h4 class="question-title" id="preview-q6-label">次に読むべき論文はあるか？</h4>
+                                <p class="question-answer" id="preview-q6-content">回答内容がここに表示されます</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 入力エリアを左右に分割 -->
+            <div class="input-wrapper">
+                <!-- 左側：論文情報入力 -->
+                <section class="basic-info-section">
+                    <h2>論文情報入力</h2>
+                    
+                    <!-- 基本情報 -->
+                    <div class="basic-info">
+                        <div class="form-group">
+                            <label for="title">タイトル <span class="char-count" id="title-count">0/25</span></label>
+                            <input type="text" id="title" maxlength="25" placeholder="論文のタイトル（短く）">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="author">著者 <span class="char-count" id="author-count">0/100</span></label>
+                            <input type="text" id="author" maxlength="100" placeholder="著者名を入力">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="year">年度</label>
+                            <input type="number" id="year" min="1900" max="2030" placeholder="2024">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category-input">カテゴリ</label>
+                            <div class="category-input-wrapper">
+                                <input type="text" id="category-input" maxlength="20" placeholder="分野を入力（例：機械学習）">
+                                <button type="button" id="add-category">追加</button>
+                            </div>
+                            <div class="categories" id="categories"></div>
+                        </div>
+                    </div>
+
+                    <!-- 画像アップロード -->
+                    <div class="image-upload">
+                        <label>図表・画像</label>
+                        <div class="upload-area" id="upload-area">
+                            <p>画像をドラッグ&ドロップまたはCtrl+Vでペースト</p>
+                            <input type="file" id="image-input" accept="image/*" style="display: none;">
+                            <button type="button" id="upload-btn">ファイルを選択</button>
+                        </div>
+                        <div class="uploaded-image" id="uploaded-image" style="display: none;">
+                            <img id="preview-img" alt="アップロード画像">
+                            <button type="button" id="remove-image">削除</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 右側：質問選択 -->
+                <section class="questions-input-section">
+                    <h2>質問選択</h2>
+                    
+                    <!-- 質問選択 -->
+                    <div class="questions-section">
+                        <h3>質問選択 <span class="selected-count" id="selected-count">(3/6選択中)</span></h3>
+                        <div class="question-item" data-question="1">
+                            <div class="question-control">
+                                <input type="checkbox" class="question-checkbox" id="q1-checkbox" checked>
+                                <label for="q1-checkbox" class="checkbox-label">この質問を含める</label>
+                            </div>
+                            <div class="question-header">
+                                <input type="text" class="question-label" value="どんなもの？" maxlength="15">
+                                <span class="char-count" id="q1-count">0/80</span>
+                            </div>
+                            <textarea class="question-content" maxlength="80" placeholder="短く要約"></textarea>
+                        </div>
+                        
+                        <div class="question-item" data-question="2">
+                            <div class="question-control">
+                                <input type="checkbox" class="question-checkbox" id="q2-checkbox" checked>
+                                <label for="q2-checkbox" class="checkbox-label">この質問を含める</label>
+                            </div>
+                            <div class="question-header">
+                                <input type="text" class="question-label" value="先行研究と比べてどこがすごいの？" maxlength="15">
+                                <span class="char-count" id="q2-count">0/80</span>
+                            </div>
+                            <textarea class="question-content" maxlength="80" placeholder="差別化ポイント"></textarea>
+                        </div>
+                        
+                        <div class="question-item" data-question="3">
+                            <div class="question-control">
+                                <input type="checkbox" class="question-checkbox" id="q3-checkbox" checked>
+                                <label for="q3-checkbox" class="checkbox-label">この質問を含める</label>
+                            </div>
+                            <div class="question-header">
+                                <input type="text" class="question-label" value="技術や手法の"キモ"はどこにある？" maxlength="15">
+                                <span class="char-count" id="q3-count">0/80</span>
+                            </div>
+                            <textarea class="question-content" maxlength="80" placeholder="核となる技術"></textarea>
+                        </div>
+                        
+                        <div class="question-item" data-question="4">
+                            <div class="question-control">
+                                <input type="checkbox" class="question-checkbox" id="q4-checkbox">
+                                <label for="q4-checkbox" class="checkbox-label">この質問を含める</label>
+                            </div>
+                            <div class="question-header">
+                                <input type="text" class="question-label" value="どうやって有効だと検証した？" maxlength="15">
+                                <span class="char-count" id="q4-count">0/80</span>
+                            </div>
+                            <textarea class="question-content" maxlength="80" placeholder="検証方法"></textarea>
+                        </div>
+                        
+                        <div class="question-item" data-question="5">
+                            <div class="question-control">
+                                <input type="checkbox" class="question-checkbox" id="q5-checkbox">
+                                <label for="q5-checkbox" class="checkbox-label">この質問を含める</label>
+                            </div>
+                            <div class="question-header">
+                                <input type="text" class="question-label" value="議論はあるか？" maxlength="15">
+                                <span class="char-count" id="q5-count">0/80</span>
+                            </div>
+                            <textarea class="question-content" maxlength="80" placeholder="課題・限界"></textarea>
+                        </div>
+                        
+                        <div class="question-item" data-question="6">
+                            <div class="question-control">
+                                <input type="checkbox" class="question-checkbox" id="q6-checkbox">
+                                <label for="q6-checkbox" class="checkbox-label">この質問を含める</label>
+                            </div>
+                            <div class="question-header">
+                                <input type="text" class="question-label" value="次に読むべき論文はあるか？" maxlength="15">
+                                <span class="char-count" id="q6-count">0/80</span>
+                            </div>
+                            <textarea class="question-content" maxlength="80" placeholder="関連研究"></textarea>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- コントロールボタン -->
+            <div class="controls-section">
+                <div class="controls">
+                    <button type="button" id="clear-all">すべてクリア</button>
+                    <button type="button" id="save-data">保存</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
